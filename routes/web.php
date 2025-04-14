@@ -16,9 +16,9 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TransactionController;
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::post('/login', [LoginController::class, 'login']);
+// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Tambahkan route untuk reset password jika diperlukan
 Route::get('/forgot-password', function () {

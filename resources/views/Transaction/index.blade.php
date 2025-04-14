@@ -8,6 +8,44 @@
         </div>
         
         <div class="p-6">
+            {{-- Registration Section --}}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-white">Daftar Akun</h2>
+                <div class="bg-[#2C3343] p-6 rounded-lg">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-400 mb-2">Name</label>
+                            <input type="text" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your name">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-2">Password</label>
+                            <input type="password" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Create password">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-2">No. Telp</label>
+                            <input type="tel" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter phone number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Biodata Section --}}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-white">Biodata</h2>
+                <div class="bg-[#2C3343] p-6 rounded-lg">
+                    <diebv class="grid md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-400 mb-2">Alamat</label>
+                            <textarea class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" rows="3" placeholder="Enter your address"></textarea>
+                        </div>
+                    </diebv>
+                </div>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-6">
                 {{-- Membership Details --}}
                 <div>
