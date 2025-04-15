@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user')->nullable();
-            $table->unsignedBigInteger('id_layanan')->nullable();
-            $table->float('total_bayar', 20, 0);
+            $table->integer('id_layanan')->nullable();
+            $table->float('total_bayar', 20);
+            $table->enum('metode_pembayaran', ['BCA', 'MANDIRI', 'GOPAY']);
             $table->date('tanggal_transaksi');
-            $table->string('note', 50);
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null');
+            // $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null');
         });
     }
 

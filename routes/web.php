@@ -13,7 +13,7 @@ use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MemberAdminController;
 use App\Http\Controllers\Admin\PaymentController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TransactionController;
 
 // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -35,7 +35,13 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-Route::get('/transaction', [TransactionController::class, 'showTransaction']);
+Route::get('/transaction', [TransactionController::class, 'showTransaction'])->name('transaction');
+Route::post('/process-transaction', [TransactionController::class, 'processTransaction'])->name('process-transaction');
+Route::get('/payment/success', function() {
+    return view('transaction.payment_success');
+})->name('payment.success');
+
+
 
 Route::get('/admin/payment', [PaymentController::class, 'index'])->name('admin.payment');
 
@@ -62,13 +68,14 @@ Route::get('/push-day', [pushdayController::class, 'index'])->name('push-day');
 Route::get('/', function () { return view('homepage'); });
 Route::get('/pricing', function () { return view('pricing'); });
 Route::get('/contact', function () { return view('contact'); });
-Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::get('/register', function () { return view('auth,register'); });
 
+Route::get('/login', function () { return view('auth.login'); })->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
-});
+})->name('logout');
 
 Route::get('/programs', function () {
     return view('programs'); // Pastikan file programs.blade.php ada di views

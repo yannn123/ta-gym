@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('no_hp', 50);
             $table->string('alamat', 100);
-            $table->date('expired_date');
+            $table->date('expired_date')->default(now()->addYear());
             $table->rememberToken();
             $table->timestamps();
         });

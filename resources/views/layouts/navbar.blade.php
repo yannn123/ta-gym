@@ -14,7 +14,15 @@
 
         <!-- Dropdown Button -->
         <div class="relative hidden md:block">
-            <a href="{{ route('login')}}" id="userMenuBtn" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition text-white">Login?</a>
+            @if (Auth::check())
+                <span class="text-blue-500">{{ Auth::user()->name }}</span>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 rounded-lg hover:bg-red-600 transition text-white">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" id="userMenuBtn" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition text-white">Login?</a>
+            @endif
         </div>
 
         <!-- Mobile Menu Button -->
