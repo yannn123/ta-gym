@@ -9,4 +9,11 @@ class Layanan extends Model
 {
     /** @use HasFactory<\Database\Factories\LayananFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'nama_layanan',
+        'deskripsi',
+        'harga',
+        'durasi_layanan',
+    ];
 }
