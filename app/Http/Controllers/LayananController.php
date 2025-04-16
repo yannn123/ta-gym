@@ -5,62 +5,50 @@ namespace App\Http\Controllers;
 use App\Models\Layanan;
 use App\Http\Requests\StoreLayananRequest;
 use App\Http\Requests\UpdateLayananRequest;
+use Illuminate\Http\Request;
 
 class LayananController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $layanan = Layanan::all();
+        return view('admin.layanan', compact('layanan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric',
+            'durasi_layanan' => 'required|string|max:255',
+        ]);
+
+        Layanan::create($request->all());
+
+        return redirect()->route('admin.layanan')->with('success', 'Layanan berhasil ditambahkan');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLayananRequest $request)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric',
+            'durasi_layanan' => 'required|string|max:255',
+        ]);
+
+        $layanan = Layanan::findOrFail($id);
+        $layanan->update($request->all());
+
+        return redirect()->route('admin.layanan')->with('success', 'Layanan berhasil diperbarui');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Layanan $layanan)
+    public function destroy($id)
     {
-        //
-    }
+        $layanan = Layanan::findOrFail($id);
+        $layanan->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Layanan $layanan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLayananRequest $request, Layanan $layanan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Layanan $layanan)
-    {
-        //
+        return redirect()->route('admin.layanan')->with('success', 'Layanan berhasil dihapus');
     }
 }

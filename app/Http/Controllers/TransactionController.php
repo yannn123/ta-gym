@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\User;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller 
 {
+    public function showForm()
+    {
+        $layanan = Layanan::all();
+        return view('daftar-member', compact('layanan'));
+    }
+
     public function showTransaction(Request $request)
     {
         $idLayanan = $request->input('id_layanan', 1);
@@ -39,7 +46,6 @@ class TransactionController extends Controller
             'address' => 'required|string',
             'payment_method' => 'required|in:BCA,MANDIRI,GOPAY',
             'membership_type' => 'required',
-            'membership_type_name' => 'required|string',
             'duration' => 'required|string',
             'price' => 'required|numeric',
         ]);
@@ -73,12 +79,19 @@ class TransactionController extends Controller
         $transaksi->id_layanan = $request->membership_type;
         $transaksi->total_bayar = $request->price;
         $transaksi->tanggal_transaksi = now()->format('Y-m-d');
+
+        $layanan = Layanan::find($request->membership_type);
+        if ($layanan) {
+            $durationInMonths = (int) $layanan->durasi_layanan;
+            $transaksi->expired_date = now()->addMonths($durationInMonths)->format('Y-m-d');
+        }
+
         $transaksi->metode_pembayaran = $request->payment_method;
+        $transaksi->status = 'pending';
         $transaksi->save();
 
         $formattedPrice = number_format($request->price, 0, ',', '.');
         
         return redirect()->route('payment.success')->with('success', 'Transaction is being processed. Your payment of Rp ' . $formattedPrice . ' via ' . $request->payment_method . ' is pending.');
     }
- 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -9,7 +10,8 @@ class MemberController extends Controller
     // Menampilkan halaman pendaftaran
     public function showForm()
     {
-        return view('daftar-member'); // Sesuai dengan lokasi file
+        $layanan = Layanan::all();
+        return view('daftar-member', compact('layanan'));
     }
 
     // Menangani form pendaftaran
