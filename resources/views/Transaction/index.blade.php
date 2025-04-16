@@ -22,7 +22,7 @@
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-400 mb-2">Name</label>
-                                <input type="text" name="name" id="name" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your name">
+                                <input type="text" name="name" id="name" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your name" value="{{ old('name') }}">
                                 <p id="nameError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -30,7 +30,7 @@
                             </div>
                             <div>
                                 <label class="block text-gray-400 mb-2">Email</label>
-                                <input type="email" name="email" id="email" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your email">
+                                <input type="email" name="email" id="email" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your email" value="{{ old('email') }}">
                                 <p id="emailError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('email')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -46,7 +46,7 @@
                             </div>
                             <div>
                                 <label class="block text-gray-400 mb-2">No. Telp</label>
-                                <input type="tel" name="phone" id="phone" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter phone number">
+                                <input type="tel" name="phone" id="phone" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter phone number" value="{{ old('phone') }}">
                                 <p id="phoneError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('phone')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
                                 <label class="block text-gray-400 mb-2">Alamat</label>
-                                <textarea name="address" id="address" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" rows="3" placeholder="Enter your address"></textarea>
+                                <textarea name="address" id="address" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" rows="3" placeholder="Enter your address">{{ old('address') }}</textarea>
                                 <p id="addressError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('address')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="bg-[#2C3343] p-4 rounded-lg">
                                 <p class="font-medium text-gray-400">Duration</p>
-                                <p class="text-lg font-bold text-white">{{ $duration }}</p>
+                                <p class="text-lg font-bold text-white">{{ $duration }} Bulan</p>
                             </div>
                             <div class="bg-[#2C3343] p-4 rounded-lg">
                                 <p class="font-medium text-gray-400">Price</p>
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
     inputFields.forEach(field => {
         field.addEventListener('input', function() {
             const errorElement = document.getElementById(`${field.id}Error`);
-            if (field.value.trim()) {
+            if (errorElement && field.value.trim()) {
                 errorElement.classList.add('hidden');
             }
         });

@@ -8,8 +8,8 @@
         <div class="hidden md:flex space-x-6">
             <a href="/" class="text-white hover:text-red-500 transition">Home</a> <!-- Menambahkan text-white -->
             <a href="{{ route('programs') }}" class="text-white hover:text-red-500 transition">Programs</a>
-            <a href="#" class="text-white hover:text-red-500 transition">Trainers</a> <!-- Menambahkan text-white -->
             <a href="{{route('jadwal.kelas') }}" class="text-white hover:text-red-500 transition">Jadwal</a> <!-- Menambahkan text-white -->
+            <a href="#" class="text-white hover:text-red-500 transition">Riwayat</a>
         </div>
 
         <!-- Dropdown Button -->

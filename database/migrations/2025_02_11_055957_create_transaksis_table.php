@@ -17,10 +17,12 @@ return new class extends Migration
             $table->integer('id_layanan')->nullable();
             $table->float('total_bayar', 20);
             $table->enum('metode_pembayaran', ['BCA', 'MANDIRI', 'GOPAY']);
+            $table->enum('status', ['pending', 'completed', 'failed', 'expired'])->default('pending');
             $table->date('tanggal_transaksi');
+            $table->date('expired_date');
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             // $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null');
         });
     }

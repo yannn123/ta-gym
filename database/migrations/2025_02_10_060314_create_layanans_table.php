@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama_layanan', 50);
             $table->string('deskripsi', 50);
-            $table->string('gambar');
-            $table->string('jadwal_layanan');
+            $table->decimal('harga', 8, 2);
+            $table->integer('durasi_layanan');
             $table->timestamps();
         });
     }
