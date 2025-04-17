@@ -22,7 +22,7 @@
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-400 mb-2">Name</label>
-                                <input type="text" name="name" id="name" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your name" value="{{ old('name') }}">
+                                <input type="text" name="name" id="name" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your name" value="{{ old('name', $user->name ?? '') }}">
                                 <p id="nameError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -30,7 +30,7 @@
                             </div>
                             <div>
                                 <label class="block text-gray-400 mb-2">Email</label>
-                                <input type="email" name="email" id="email" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your email" value="{{ old('email') }}">
+                                <input type="email" name="email" id="email" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter your email" value="{{ old('email', $user->email ?? '') }}">
                                 <p id="emailError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('email')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -46,7 +46,7 @@
                             </div>
                             <div>
                                 <label class="block text-gray-400 mb-2">No. Telp</label>
-                                <input type="tel" name="phone" id="phone" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter phone number" value="{{ old('phone') }}">
+                                <input type="tel" name="phone" id="phone" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" placeholder="Enter phone number" value="{{ old('phone', $user->no_hp ?? '') }}">
                                 <p id="phoneError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('phone')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
                                 <label class="block text-gray-400 mb-2">Alamat</label>
-                                <textarea name="address" id="address" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" rows="3" placeholder="Enter your address">{{ old('address') }}</textarea>
+                                <textarea name="address" id="address" class="w-full bg-[#1E2433] text-white rounded p-3 border border-[#3A4456]" rows="3" placeholder="Enter your address">{{ old('address', $user->alamat ?? '') }}</textarea>
                                 <p id="addressError" class="text-red-500 text-sm mt-1 hidden"></p>
                                 @error('address')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -209,11 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const password = document.getElementById('password');
         const passwordError = document.getElementById('passwordError');
-        if (!password.value.trim()) {
-            passwordError.textContent = 'Password is required';
-            passwordError.classList.remove('hidden');
-            isValid = false;
-        } else if (password.value.length < 6) {
+        if (password.value.trim() && password.value.length < 6) {
             passwordError.textContent = 'Password must be at least 6 characters';
             passwordError.classList.remove('hidden');
             isValid = false;

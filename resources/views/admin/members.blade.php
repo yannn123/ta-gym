@@ -89,9 +89,13 @@
                                     <td class="py-3 px-4 border member-phone">{{ $member->no_hp }}</td>
                                     <td class="py-3 px-4 border member-address">{{ $member->alamat }}</td>
                                     <td class="py-3 px-4 border text-center">
+                                        @php
+                                            $latestTransaction = $member->transaksis->sortByDesc('created_at')->first();
+                                        @endphp
+
                                         @if($member->role === 'admin')
                                             <span class="bg-green-200 rounded px-2 py-1">Admin</span>
-                                        @elseif($member->transaksis->where('status', 'failed')->count() > 0)
+                                        @elseif($latestTransaction && $latestTransaction->status === 'failed')
                                             <span class="bg-yellow-200 rounded px-2 py-1">Payment Issue</span>
                                         @else
                                             <span class="bg-blue-200 rounded px-2 py-1">Member</span>
