@@ -18,18 +18,18 @@ class CheckFailedTransaction
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        // if (Auth::check()) {
+        //     $user = Auth::user();
 
-            $hasFailedTransaction = Transaksi::where('id_user', $user->id)
-                ->where('status', 'failed')
-                ->exists();
+        //     $hasFailedTransaction = Transaksi::where('id_user', $user->id)
+        //         ->where('status', 'failed')
+        //         ->exists();
 
-            if ($hasFailedTransaction && !$request->is('login') && !$request->is('register')) {
-                Auth::logout();
-                return redirect()->route('login')->with('error', 'Your transaction has failed. Please contact support.');
-            }
-        }
+        //     if ($hasFailedTransaction && !$request->is('login') && !$request->is('register')) {
+        //         Auth::logout();
+        //         return redirect()->route('login')->with('error', 'Your transaction has failed. Please contact support.');
+        //     }
+        // }
 
         return $next($request);
     }

@@ -23,13 +23,20 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            // Cek role pengguna
             $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // Redirect ke dashboard admin
-            }
 
-            return redirect()->intended('/'); // Redirect ke halaman utama untuk user biasa
+            $hasCompletedTransaction = $user->transaksis()
+                ->where('status', 'completed')
+                ->orderBy('created_at', 'desc')
+                ->exists();
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif ($hasCompletedTransaction) {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect('/');
+            }
         }
 
         return back()->withErrors([
@@ -44,6 +51,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('login');
     }
 }

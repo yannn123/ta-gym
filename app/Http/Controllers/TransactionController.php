@@ -25,6 +25,8 @@ class TransactionController extends Controller
         $duration = $request->input('duration', '1 Bulan');
         $price = $request->input('price', '85000');
         
+        $user = Auth::user();
+
         $formattedPrice = number_format($price, 0, ',', '.');
         
         return view('transaction.index', [
@@ -32,7 +34,8 @@ class TransactionController extends Controller
             'membershipType' => $membershipType,
             'duration' => $duration,
             'price' => $price,
-            'formattedPrice' => $formattedPrice
+            'formattedPrice' => $formattedPrice,
+            'user' => $user
         ]);
     }
 
@@ -41,7 +44,7 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'password' => 'required|string|min:6',
+            'password' => 'nullable|string|min:6',
             'phone' => 'required|string|regex:/^[0-9+\-\s]{10,15}$/',
             'address' => 'required|string',
             'payment_method' => 'required|in:BCA,MANDIRI,GOPAY',
@@ -60,7 +63,6 @@ class TransactionController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            // Create a new user if it doesn't exist
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -71,7 +73,16 @@ class TransactionController extends Controller
 
             Auth::login($user);
         } else {
-            return redirect()->back()->with('info', 'User already exists. Please log in.');
+            $user->name = $request->name;
+            $user->no_hp = $request->phone;
+            $user->alamat = $request->address;
+
+            // Only update password if it's provided
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
         }
 
         $transaksi = new Transaksi();
@@ -92,6 +103,6 @@ class TransactionController extends Controller
 
         $formattedPrice = number_format($request->price, 0, ',', '.');
         
-        return redirect()->route('payment.success')->with('success', 'Transaction is being processed. Your payment of Rp ' . $formattedPrice . ' via ' . $request->payment_method . ' is pending.');
+        return redirect()->route('riwayat')->with('success', 'Transaction is being processed. Your payment of Rp ' . $formattedPrice . ' via ' . $request->payment_method . ' is pending.');
     }
 }
