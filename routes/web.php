@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\RiwayatController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -44,22 +46,17 @@ Route::middleware([IsAdmin::class])->prefix('admin')->group(function () {
 });
 
 Route::middleware([CheckFailedTransaction::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
+
+    Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat');
 
     Route::get('/transaction', [TransactionController::class, 'showTransaction'])->name('transaction');
     Route::post('/process-transaction', [TransactionController::class, 'processTransaction'])->name('process-transaction');
-    Route::get('/payment/success', function () {
-        return view('transaction.payment_success');
-    })->name('payment.success');
 
     Route::get('/daftar-member', [MemberController::class, 'showForm'])->name('daftar-member');
     Route::post('/daftar-member', [MemberController::class, 'processForm'])->name('daftar-member.submit');
 
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('login');
+    Route::get('/login', function () {return view('auth.login');})->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
